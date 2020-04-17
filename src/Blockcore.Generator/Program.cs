@@ -40,7 +40,7 @@ namespace Blockcore.Generator
          contents.Add("    Time: " + block.Header.Time);
          contents.Add("    Nonce: " + block.Header.Nonce);
          contents.Add("    Bits: " + block.Header.Bits.ToCompact().ToString("X2"));
-         contents.Add("    Hash: " + block.Header.Version);
+         contents.Add("    Version: " + block.Header.Version);
          contents.Add("    Hash: " + block.Header.ToString());
          contents.Add("    Hash Merkle Root: " + block.Header.HashMerkleRoot);
          contents.Add("");
@@ -53,7 +53,7 @@ namespace Blockcore.Generator
          contents.Add("    Time: " + block.Header.Time);
          contents.Add("    Nonce: " + block.Header.Nonce);
          contents.Add("    Bits: " + block.Header.Bits.ToCompact().ToString("X2"));
-         contents.Add("    Hash: " + block.Header.Version);
+         contents.Add("    Version: " + block.Header.Version);
          contents.Add("    Hash: " + block.Header.ToString());
          contents.Add("    Hash Merkle Root: " + block.Header.HashMerkleRoot);
          contents.Add("");
@@ -66,7 +66,7 @@ namespace Blockcore.Generator
          contents.Add("    Time: " + block.Header.Time);
          contents.Add("    Nonce: " + block.Header.Nonce);
          contents.Add("    Bits: " + block.Header.Bits.ToCompact().ToString("X2"));
-         contents.Add("    Hash: " + block.Header.Version);
+         contents.Add("    Version: " + block.Header.Version);
          contents.Add("    Hash: " + block.Header.ToString());
          contents.Add("    Hash Merkle Root: " + block.Header.HashMerkleRoot);
 

@@ -17,4 +17,4 @@
 
 Genesis Block Generator you can use to generate the genesis block for your custom blockchain.
 
-Download latest version from [releases](releases).
+Download latest version from [releases](https://github.com/block-core/blockcore-tools/releases).

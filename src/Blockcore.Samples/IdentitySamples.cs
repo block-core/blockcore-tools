@@ -38,8 +38,47 @@ namespace Blockcore.Samples
          ExtKey identity0 = identityRoot.Derive(0, true);
          ExtKey identity1 = identityRoot.Derive(1, true);
 
-         BitcoinPubKeyAddress identity0Id = identity0.PrivateKey.PubKey.GetAddress(profileNetwork);
-         BitcoinPubKeyAddress identity1Id = identity1.PrivateKey.PubKey.GetAddress(profileNetwork);
+         BitcoinPubKeyAddress identity0Address = identity0.PrivateKey.PubKey.GetAddress(profileNetwork);
+         BitcoinPubKeyAddress identity1Address = identity1.PrivateKey.PubKey.GetAddress(profileNetwork);
+
+         string identity0Id = identity0Address.ToString();
+
+         // Create an identity profile that should be signed and pushed.
+         IdentityModel identityModel = new IdentityModel
+         {
+            Id = identity0Id,
+            Name = "Random Person",
+            ShortName = "Random",
+            Alias = "Who Knows",
+            Email = "mail@mail.com",
+            Title = "President"
+         };
+
+         byte[] entityBytes = MessagePackSerializer.Serialize(identityModel);
+
+         // Testing to only sign the name.
+         string signature = identity0.PrivateKey.SignMessage(entityBytes);
+
+         IdentityDocument identityDocument = new IdentityDocument
+         {
+            Owner = identityModel.Id,
+            Body = identityModel,
+            Signature = signature
+         };
+
+         string json = JsonConvert.SerializeObject(identityDocument);
+
+         RestClient client = CreateClient();
+
+         // Persist the identity.
+         var request2 = new RestRequest($"/identity/{identityModel.Id}");
+         request2.AddJsonBody(identityDocument);
+         IRestResponse<string> response2 = client.Put<string>(request2);
+
+         if (response2.StatusCode != System.Net.HttpStatusCode.OK)
+         {
+            throw new ApplicationException(response2.ErrorMessage);
+         }
       }
 
       public void GenerateIdentity()
@@ -65,9 +104,11 @@ namespace Blockcore.Samples
          IdentityModel identityModel = new IdentityModel
          {
             Id = identity0Id,
-            Name = "John Doe",
-            ShortName = "JD",
-            Alias = "Jane"
+            Name = "This is a person",
+            ShortName = "None of yoru concern",
+            Alias = "JD",
+            Title = "President of the World",
+            Email = "president@president.com"
          };
 
          byte[] entityBytes = MessagePackSerializer.Serialize(identityModel);
@@ -102,9 +143,9 @@ namespace Blockcore.Samples
          request2.AddJsonBody(identityDocument);
          IRestResponse<string> response2 = client.Put<string>(request2);
 
-         if (response.StatusCode != System.Net.HttpStatusCode.OK)
+         if (response2.StatusCode != System.Net.HttpStatusCode.OK)
          {
-            throw new ApplicationException(response.ErrorMessage);
+            throw new ApplicationException(response2.ErrorMessage);
          }
       }
 
@@ -115,15 +156,18 @@ namespace Blockcore.Samples
 
       public void Run()
       {
-         GenerateIdentity();
+         //GenerateIdentity();
+         GenerateRandomIdentity();
       }
 
       private RestClient CreateClient()
       {
+         // Change the URL to publish to a public node.
+         //var client = new RestClient("https://identity.city-chain.org/api");
          var client = new RestClient($"http://localhost:{paymentNetwork.DefaultAPIPort}/api");
+
          client.UseNewtonsoftJson();
          client.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
-         client.AddDefaultHeader("Node-Api-Key", "1234");
 
          return client;
       }

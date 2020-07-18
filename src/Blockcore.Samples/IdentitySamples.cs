@@ -26,7 +26,7 @@ namespace Blockcore.Samples
          paymentNetwork = City.Networks.Networks.City.Mainnet.Invoke();
       }
 
-      public void GenerateRandomIdentity()
+      public string GenerateRandomIdentity()
       {
          // Generate a random seed and new identity.
          var mnemonic = new Mnemonic(Wordlist.English, WordCount.Twelve);
@@ -79,9 +79,11 @@ namespace Blockcore.Samples
          {
             throw new ApplicationException(response2.ErrorMessage);
          }
+
+         return identity0Id;
       }
 
-      public void GenerateIdentity()
+      public string GenerateIdentity()
       {
          // Generate a fixed identity.
          string recoveryPhrase = "mystery problem faith negative member bottom concert bundle asthma female process twelve";
@@ -147,6 +149,8 @@ namespace Blockcore.Samples
          {
             throw new ApplicationException(response2.ErrorMessage);
          }
+
+         return identity0Id;
       }
 
       public void PublishIdentity()
@@ -156,8 +160,11 @@ namespace Blockcore.Samples
 
       public void Run()
       {
-         //GenerateIdentity();
-         GenerateRandomIdentity();
+         string knownIdentity = GenerateIdentity();
+         Console.WriteLine("Known Identity ID: " + knownIdentity);
+
+         string randomIdentity = GenerateRandomIdentity();
+         Console.WriteLine("Generated Identity ID: " + randomIdentity);
       }
 
       private RestClient CreateClient()

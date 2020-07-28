@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Blockcore.Samples.Models;
+using Blockcore.Features.Storage.Models;
 using MessagePack;
 using NBitcoin;
 using Newtonsoft.Json;
@@ -44,9 +44,9 @@ namespace Blockcore.Samples
          string identity0Id = identity0Address.ToString();
 
          // Create an identity profile that should be signed and pushed.
-         IdentityModel identityModel = new IdentityModel
+         Identity identityModel = new Identity
          {
-            Id = identity0Id,
+            Identifier = identity0Id,
             Name = "Random Person",
             ShortName = "Random",
             Alias = "Who Knows",
@@ -61,8 +61,8 @@ namespace Blockcore.Samples
 
          IdentityDocument identityDocument = new IdentityDocument
          {
-            Owner = identityModel.Id,
-            Body = identityModel,
+            Id = "identity/" + identityModel.Identifier,
+            Content = identityModel,
             Signature = signature
          };
 
@@ -71,7 +71,7 @@ namespace Blockcore.Samples
          RestClient client = CreateClient();
 
          // Persist the identity.
-         var request2 = new RestRequest($"/identity/{identityModel.Id}");
+         var request2 = new RestRequest($"/identity/{identityModel.Identifier}");
          request2.AddJsonBody(identityDocument);
          IRestResponse<string> response2 = client.Put<string>(request2);
 
@@ -103,9 +103,9 @@ namespace Blockcore.Samples
          string identity1Id = identity1Address.ToString(); // PAcmQwEMW2oxzRBz7u6oFQMtYPSYqoXyiw
 
          // Create an identity profile that should be signed and pushed.
-         IdentityModel identityModel = new IdentityModel
+         Identity identityModel = new Identity
          {
-            Id = identity0Id,
+            Identifier = identity0Id,
             Name = "This is a person",
             ShortName = "None of yoru concern",
             Alias = "JD",
@@ -118,10 +118,10 @@ namespace Blockcore.Samples
          // Testing to only sign the name.
          string signature = identity0.PrivateKey.SignMessage(entityBytes);
 
-         IdentityDocument identityDocument = new IdentityDocument
+         var identityDocument = new Document<Identity>
          {
-            Owner = identityModel.Id,
-            Body = identityModel,
+            Id = "identity/" + identityModel.Identifier,
+            Content = identityModel,
             Signature = signature
          };
 
@@ -130,7 +130,7 @@ namespace Blockcore.Samples
          RestClient client = CreateClient();
 
          // Get the identity, if it exists.
-         var request = new RestRequest($"/identity/{identityModel.Id}");
+         var request = new RestRequest($"/identity/{identityModel.Identifier}");
          IRestResponse<string> response = client.Get<string>(request);
 
          //if (response.StatusCode != System.Net.HttpStatusCode.OK)
@@ -141,7 +141,7 @@ namespace Blockcore.Samples
          string data = response.Data;
 
          // Persist the identity.
-         var request2 = new RestRequest($"/identity/{identityModel.Id}");
+         var request2 = new RestRequest($"/identity/{identityModel.Identifier}");
          request2.AddJsonBody(identityDocument);
          IRestResponse<string> response2 = client.Put<string>(request2);
 

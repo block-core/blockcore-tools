@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Blockcore.Features.Storage.Models;
-using Blockcore.Jose;
 using Blockcore.Samples.Models;
-using Microsoft.JSInterop;
 using NBitcoin;
 using Newtonsoft.Json;
 using RestSharp;
@@ -12,7 +10,7 @@ using RestSharp.Serializers.NewtonsoftJson;
 
 namespace Blockcore.Samples
 {
-   public class IdentitySamples
+   public class DataSamples
    {
       private readonly string[] args;
 
@@ -20,7 +18,7 @@ namespace Blockcore.Samples
 
       private readonly Network paymentNetwork;
 
-      public IdentitySamples(string[] args)
+      public DataSamples(string[] args)
       {
          this.args = args;
 
@@ -28,92 +26,94 @@ namespace Blockcore.Samples
          paymentNetwork = City.Networks.Networks.City.Mainnet.Invoke();
       }
 
-      public static long ToUnixEpochDate(DateTime date) => new DateTimeOffset(date).ToUniversalTime().ToUnixTimeSeconds();
+      //public string GenerateRandomIdentityAndTicket()
+      //{
+      //   // Generate a random seed and new identity.
+      //   var mnemonic = new Mnemonic(Wordlist.English, WordCount.Twelve);
 
-      public string GenerateRandomIdentity()
-      {
-         // Generate a random seed and new identity.
-         var mnemonic = new Mnemonic(Wordlist.English, WordCount.Twelve);
+      //   // string recoveryPhrase = "";
+      //   // var mnemonic = new Mnemonic(recoveryPhrase);
 
-         // string recoveryPhrase = "";
-         // var mnemonic = new Mnemonic(recoveryPhrase);
+      //   ExtKey masterNode = mnemonic.DeriveExtKey();
 
-         ExtKey masterNode = mnemonic.DeriveExtKey();
+      //   ExtPubKey walletRoot = masterNode.Derive(new KeyPath("m/44'")).Neuter();
+      //   ExtKey identityRoot = masterNode.Derive(new KeyPath("m/302'"));
 
-         ExtPubKey walletRoot = masterNode.Derive(new KeyPath("m/44'")).Neuter();
-         ExtKey identityRoot = masterNode.Derive(new KeyPath("m/302'"));
+      //   ExtKey identity0 = identityRoot.Derive(0, true);
+      //   ExtKey identity1 = identityRoot.Derive(1, true);
 
-         ExtKey identity0 = identityRoot.Derive(0, true);
-         ExtKey identity1 = identityRoot.Derive(1, true);
+      //   BitcoinPubKeyAddress identity0Address = identity0.PrivateKey.PubKey.GetAddress(profileNetwork);
+      //   BitcoinPubKeyAddress identity1Address = identity1.PrivateKey.PubKey.GetAddress(profileNetwork);
 
-         BitcoinPubKeyAddress identity0Address = identity0.PrivateKey.PubKey.GetAddress(profileNetwork);
-         BitcoinPubKeyAddress identity1Address = identity1.PrivateKey.PubKey.GetAddress(profileNetwork);
+      //   string identity0Id = identity0Address.ToString();
 
-         string identity0Id = identity0Address.ToString();
+      //   // Create an identity profile that should be signed and pushed.
+      //   //Identity identityModel = new Identity
+      //   //{
+      //   //   Identifier = identity0Id,
+      //   //   Name = "Blockcore Hub",
+      //   //   Email = "post@blockcore.net",
+      //   //   Url = "https://city.hub.liberstad.com",
+      //   //   Image = "https://www.blockcore.net/assets/blockcore-256x256.png"
+      //   //};
 
-         // Create an identity profile that should be signed and pushed.
-         //Identity identityModel = new Identity
-         //{
-         //   Identifier = identity0Id,
-         //   Name = "Blockcore Hub",
-         //   Email = "post@blockcore.net",
-         //   Url = "https://city.hub.liberstad.com",
-         //   Image = "https://www.blockcore.net/assets/blockcore-256x256.png"
-         //};
+      //   //Identity identityModel = new Identity
+      //   //{
+      //   //   Identifier = identity0Id,
+      //   //   Name = "Liberstad Hub",
+      //   //   Email = "post@liberstad.com",
+      //   //   Url = "https://city.hub.liberstad.com",
+      //   //   Image = "https://file.city-chain.org/liberstad-square-logo.png"
+      //   //};
 
-         //Identity identityModel = new Identity
-         //{
-         //   Identifier = identity0Id,
-         //   Name = "Liberstad Hub",
-         //   Email = "post@liberstad.com",
-         //   Url = "https://city.hub.liberstad.com",
-         //   Image = "https://file.city-chain.org/liberstad-square-logo.png"
-         //};
+      //   Ticket ticket = new Ticket
+      //   {
+      //      Event = "Live",
+      //      Name = "Aha",
+      //      Identifier = "1",
+      //      State = 0,
+      //      Type = "ticket"
+      //   };
 
-         string key = identity0Address.ToString();
-         string identifier = "did:is:" + key;
+      //   //Identity identityModel = new Identity
+      //   //{
+      //   //   Type = "identity",
+      //   //   Identifier = identity0Id,
+      //   //   Name = "Who?",
+      //   //   Email = "",
+      //   //   Url = "",
+      //   //   Image = ""
+      //   //};
 
-         var identity = new Identity
-         {
-            Identifier = identifier,
-            Name = "John Doe",
-            ShortName = "John",
-            Alias = "JD",
-            Title = "Gone missing",
-            Type = "identity",
-            Timpestamp = ToUnixEpochDate(new DateTime(2020, 2, 2))
-         };
+      //   byte[] entityBytes = MessagePackSerializer.Serialize(ticket);
 
-         //JsonWebKey key = new JsonWebKey();
-         //key.KeyId = identity0Id;
+      //   // Testing to only sign the name.
+      //   string signature = identity0.PrivateKey.SignMessage(entityBytes);
 
-         var header = new Dictionary<string, object>();
-         header.Add("typ", "JWT");
-         header.Add("kid", key);
+      //   TicketDocument identityDocument = new TicketDocument
+      //   {
+      //      Version = 3,
+      //      Id = "data/ticket/" + ticket.Identifier,
+      //      Content = ticket,
+      //      Signature = new Signature() { Identity = identity0Id, Value = signature }
+      //   };
 
-         string token = JWT.Encode(identity, identity0.PrivateKey, JwsAlgorithm.ES256K, header);
-         // This should crash with exception: "Blockcore.Jose.JoseException: Payload is missing required signature".
-         
-         Message message = new Message()
-         {
-            Version = 4,
-            Content = token
-         };
+      //   string json = JsonConvert.SerializeObject(identityDocument);
 
-         RestClient client = CreateClient();
+      //   RestClient client = CreateClient();
 
-         // Persist the identity.
-         var request2 = new RestRequest($"/api/identity");
-         request2.AddJsonBody(message);
-         IRestResponse<string> response2 = client.Put<string>(request2);
+      //   // Persist the identity.
+      //   var request2 = new RestRequest($"/api/data/{ticket.Identifier}");
+      //   request2.AddJsonBody(identityDocument);
+      //   IRestResponse<string> response2 = client.Put<string>(request2);
 
-         if (response2.StatusCode != System.Net.HttpStatusCode.OK)
-         {
-            throw new ApplicationException(response2.ErrorMessage);
-         }
+      //   if (response2.StatusCode != System.Net.HttpStatusCode.OK)
+      //   {
+      //      throw new ApplicationException(response2.ErrorMessage);
+      //   }
 
-         return identity0Id;
-      }
+      //   return identity0Id;
+      //}
 
       //public string GenerateHubIdentity()
       //{
@@ -279,8 +279,8 @@ namespace Blockcore.Samples
          //string knownIdentity = GenerateIdentity();
          //Console.WriteLine("Known Identity ID: " + knownIdentity);
 
-         string randomIdentity = GenerateRandomIdentity();
-         Console.WriteLine("Generated Identity ID: " + randomIdentity);
+         //string randomIdentity = GenerateRandomIdentityAndTicket();
+         //Console.WriteLine("Generated Identity ID: " + randomIdentity);
 
          //for (int i = 0; i < 10000; i++)
          //{
@@ -292,7 +292,7 @@ namespace Blockcore.Samples
       private RestClient CreateClient()
       {
          // Change the URL to publish to a public node.
-         // var client = new RestClient("https://hub.city-chain.org");
+         //var client = new RestClient("https://hub.city-chain.org");
          var client = new RestClient($"http://localhost:{paymentNetwork.DefaultAPIPort}");
 
          client.UseNewtonsoftJson();

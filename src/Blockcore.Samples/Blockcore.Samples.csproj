@@ -6,9 +6,9 @@
   </PropertyGroup>
 
    <ItemGroup>
-      <PackageReference Include="Blockcore.NBitcoin" Version="1.0.*" />
-      <PackageReference Include="Blockcore.Networks.City" Version="1.0.*" />
-      <PackageReference Include="MessagePack" Version="2.1.152" />
+      <PackageReference Include="Blockcore.Jose" Version="1.0.2" />
+      <PackageReference Include="Blockcore.NBitcoin" Version="1.0.12" />
+      <PackageReference Include="Blockcore.Networks.City" Version="1.0.12" />
       <PackageReference Include="RestSharp" Version="106.11.4" />
       <PackageReference Include="RestSharp.Serializers.NewtonsoftJson" Version="106.11.4" />
    </ItemGroup>

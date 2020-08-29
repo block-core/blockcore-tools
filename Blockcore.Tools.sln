@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockcore.Generator", "src\Blockcore.Generator\Blockcore.Generator.csproj", "{B1CE62CE-36C0-4792-8C65-A5BC27CCBC22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blockcore.Samples", "src\Blockcore.Samples\Blockcore.Samples.csproj", "{9C8834B8-E761-4E8A-A36A-5466399453FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockcore.Samples", "src\Blockcore.Samples\Blockcore.Samples.csproj", "{9C8834B8-E761-4E8A-A36A-5466399453FF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B332B00C-D4CE-4646-8A34-AA46CDEC2051}"
 	ProjectSection(SolutionItems) = preProject

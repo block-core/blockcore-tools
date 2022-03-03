@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using NBitcoin;
 
@@ -38,7 +39,8 @@ namespace Blockcore.Generator
 
    class Program
     {
-        static void Main(string[] args)
+      [UnconditionalSuppressMessage("Trimming", "IL2026:Members annotated with 'RequiresUnreferencedCodeAttribute' require dynamic access otherwise can break functionality when trimming application code", Justification = "<Pending>")]
+      static void Main(string[] args)
         {
          Console.WriteLine(BlockcoreLogo.GetAsciiLogo("Genesis Block Generator v1.0"));
 

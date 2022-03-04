@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Blockcore.Networks;
 using NBitcoin;
+using Base58Type = Blockcore.Networks.Base58Type;
+using Network = Blockcore.Networks.Network;
 
 namespace Blockcore.Samples
 {

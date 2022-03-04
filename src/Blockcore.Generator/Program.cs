@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
+using Blockcore.Consensus.BlockInfo;
+using Blockcore.Networks;
 using NBitcoin;
 
 namespace Blockcore.Generator

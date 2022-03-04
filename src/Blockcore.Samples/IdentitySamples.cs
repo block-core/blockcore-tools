@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Blockcore.Features.Storage.Models;
-using Blockcore.Jose;
+using Blockcore.Networks;
 using Blockcore.Samples.Models;
-using Microsoft.JSInterop;
+using Jose;
 using NBitcoin;
-using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Serializers.NewtonsoftJson;
 
@@ -25,7 +23,7 @@ namespace Blockcore.Samples
          this.args = args;
 
          profileNetwork = ProfileNetwork.Instance;
-         paymentNetwork = City.Networks.Networks.City.Mainnet.Invoke();
+         paymentNetwork = Networks.City.Networks.Networks.City.Mainnet.Invoke();
       }
 
       public static long ToUnixEpochDate(DateTime date) => new DateTimeOffset(date).ToUniversalTime().ToUnixTimeSeconds();
@@ -91,9 +89,9 @@ namespace Blockcore.Samples
          header.Add("typ", "JWT");
          header.Add("kid", key);
 
-         string token = JWT.Encode(identity, identity0.PrivateKey, JwsAlgorithm.ES256K, header);
+         string token = JWT.Encode(identity, identity0.PrivateKey, JwsAlgorithm.ES256, header);
          // This should crash with exception: "Blockcore.Jose.JoseException: Payload is missing required signature".
-         
+
          Message message = new Message()
          {
             Version = 4,

@@ -7,6 +7,7 @@ using NBitcoin;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Serializers.NewtonsoftJson;
+using Network = Blockcore.Networks.Network;
 
 namespace Blockcore.Samples
 {
@@ -23,7 +24,7 @@ namespace Blockcore.Samples
          this.args = args;
 
          profileNetwork = ProfileNetwork.Instance;
-         paymentNetwork = City.Networks.Networks.City.Mainnet.Invoke();
+         paymentNetwork = Networks.City.Networks.Networks.City.Mainnet.Invoke();
       }
 
       //public string GenerateRandomIdentityAndTicket()

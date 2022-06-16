@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30011.22
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockcore.Generator", "src\Blockcore.Generator\Blockcore.Generator.csproj", "{B1CE62CE-36C0-4792-8C65-A5BC27CCBC22}"
 EndProject
@@ -17,6 +17,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockcore.Web.Bip39", "Blockcore.Web.Bip39\Blockcore.Web.Bip39.csproj", "{52255F75-2867-46E3-B745-672E4F6BDDAF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBitcoin", "..\NBitcoin\NBitcoin\NBitcoin.csproj", "{7EFF3D65-D7DA-4C38-809C-75B67B611E4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,14 @@ Global
 		{9C8834B8-E761-4E8A-A36A-5466399453FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C8834B8-E761-4E8A-A36A-5466399453FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C8834B8-E761-4E8A-A36A-5466399453FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52255F75-2867-46E3-B745-672E4F6BDDAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52255F75-2867-46E3-B745-672E4F6BDDAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52255F75-2867-46E3-B745-672E4F6BDDAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52255F75-2867-46E3-B745-672E4F6BDDAF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EFF3D65-D7DA-4C38-809C-75B67B611E4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EFF3D65-D7DA-4C38-809C-75B67B611E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EFF3D65-D7DA-4C38-809C-75B67B611E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EFF3D65-D7DA-4C38-809C-75B67B611E4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,193 @@
+@page "/bip39"
+@page "/"
+@inject IJSRuntime JS
+
+<PageTitle>Bip39</PageTitle>
+
+<h1>Bip39</h1>
+
+
+<button class="btn btn-primary" @onclick="GenerateMnemonic">Generate mnemonic</button>
+<br />
+<br />
+
+<select class="" @bind="Network">
+   <option>Network</option>
+   @foreach (var item in Networks)
+   {
+      <option value="@item">@item</option> // Blazor needs to know what values it binds to!
+   }
+</select>
+<br />
+
+<br />
+<textarea rows="3"  @bind="Words" class="form-control" @onkeyup="Generate" @onfocusout="Generate"  placeholder="mnemonic" />
+<br />
+
+<textarea rows="1"  @bind="Phrase" class="form-control" @onkeyup="Generate" @onfocusout="Generate" placeholder="phrase (optional)" />
+
+<br />
+<p role="status">Root Key: @Root</p>
+<p role="status">Seed Key: @Seed</p>
+
+<br />
+<h2>Derivation</h2>
+
+<br />
+<button class="btn btn-primary" @onclick="Bip44">Bip44</button>
+<br />
+<br />
+
+<p role="status">Account Extended Private Key: @XprvAccount</p>
+<p role="status">Account Extended Public Key: @XPubAccount</p>
+
+<br />
+
+<h3>The BIP32 derivation path</h3>
+
+<br />
+<p role="status">BIP32 Derivation Path: @PathBip32</p>
+<p role="status">BIP32 Extended Private Key: @XprvBip32</p>
+<p role="status">BIP32 Extended Public Key: @XPubBip32</p>
+<br />
+<h3>Derived Addresses</h3>
+<br />
+<br />
+
+ <table class="table small">
+      <thead>
+         <tr>
+               <th>Path</th>
+               <th>Address</th>
+               <th>Public key</th>
+               <th>Private key</th>
+         </tr>
+      </thead>
+      <tbody>
+         @foreach (var item in DerrivedItems)
+         {
+               <tr>
+                  <td>@item.Path</td>
+                  <td>@item.Address</td>
+                  <td>@item.Pubkey</td>
+                  <td>@item.Privkey</td>
+               </tr>
+         }
+      </tbody>
+</table>
+
+@code {
+    private string[] Networks { get; set; } = { "BTC" };
+    private string Network { get; set; }
+
+    private string Words { get; set; }
+    private string Phrase { get; set; }
+    private string Root { get; set; }
+    private string Seed { get; set; }
+
+    NBitcoin.ExtKey rootKey { get; set; }
+    NBitcoin.Mnemonic mnemonic { get; set; }
+
+    private string XprvAccount { get; set; }
+    private string XPubAccount { get; set; }
+
+
+    private string XprvBip32 { get; set; }
+    private string XPubBip32 { get; set; }
+    private string PathBip32 { get; set; }
+
+    private List<Derrived> DerrivedItems { get; set; } = new List<Derrived>();
+
+    private async Task GenerateMnemonic()
+    {
+        this.Seed = null;
+        this.rootKey = null;
+
+        NBitcoin.RandomUtils.Random = new NBitcoin.UnsecureRandom();
+        NBitcoin.RandomUtils.GetBytes(32);
+        this.mnemonic = new NBitcoin.Mnemonic(NBitcoin.Wordlist.English, NBitcoin.RandomUtils.GetBytes(32));
+        this.Words = mnemonic.ToString();
+
+        Generate();
+    }
+
+    private void Generate()
+    {
+        if (string.IsNullOrEmpty(this.Words))
+        {
+            return;
+        }
+
+        if (this.mnemonic == null || this.mnemonic.Words.ToString() != this.Words)
+        {
+            this.mnemonic = new NBitcoin.Mnemonic(this.Words, NBitcoin.Wordlist.English);
+        }
+
+        this.Seed = NBitcoin.DataEncoders.Encoders.Hex.EncodeData(mnemonic.DeriveSeed());
+        this.rootKey = mnemonic.DeriveExtKey(Phrase);
+
+        NBitcoin.BitcoinExtKey b58Rootkey = NBitcoin.Network.Main.CreateBitcoinExtKey(rootKey);
+        Root = b58Rootkey.ToString();
+
+        NBitcoin.ExtKey key = rootKey;
+        NBitcoin.ExtPubKey pubkey = key.Neuter();
+    }
+
+    private void Bip44()
+    {
+        NBitcoin.ExtKey keyAccount =  rootKey.Derive(NBitcoin.KeyPath.Parse("m/44'/0'/0'"));
+        NBitcoin.ExtPubKey pubkeyAccount = keyAccount.Neuter();
+
+        NBitcoin.BitcoinExtKey b58key = NBitcoin.Network.Main.CreateBitcoinExtKey(keyAccount);
+        NBitcoin.BitcoinExtPubKey b58pubkey = NBitcoin.Network.Main.CreateBitcoinExtPubKey(pubkeyAccount);
+
+        XprvAccount = b58key.ToString();
+        XPubAccount = b58pubkey.ToString();
+
+        NBitcoin.ExtKey keyBip32 = rootKey.Derive(NBitcoin.KeyPath.Parse("m/44'/0'/0'/0"));
+        NBitcoin.ExtPubKey pubkeyBip32 = keyBip32.Neuter();
+
+        NBitcoin.BitcoinExtKey b58keyBip32 = NBitcoin.Network.Main.CreateBitcoinExtKey(keyBip32);
+        NBitcoin.BitcoinExtPubKey b58pubkeyBip32 = NBitcoin.Network.Main.CreateBitcoinExtPubKey(pubkeyBip32);
+
+        var path = NBitcoin.KeyPath.Parse("m/44'/0'/0'/0");
+
+        XprvBip32 = b58keyBip32.ToString();
+        XPubBip32 = b58pubkeyBip32.ToString();
+        PathBip32 = path.ToString();
+
+        int from = 0;
+        int to = 10;
+
+        DerrivedItems = new List<Derrived>();
+
+        for (int i = from; i < to; i++)
+        {
+            var newPath = path.Derive(i, false);
+
+            NBitcoin.ExtKey keyDerrived = rootKey.Derive(newPath);
+            NBitcoin.ExtPubKey pubkeyDerrived = keyBip32.Neuter();
+
+            NBitcoin.BitcoinExtKey b58keyDerrived = NBitcoin.Network.Main.CreateBitcoinExtKey(keyDerrived);
+            NBitcoin.BitcoinExtPubKey b58pubkeyDerrived = NBitcoin.Network.Main.CreateBitcoinExtPubKey(pubkeyDerrived);
+
+            var derrived = new Derrived
+                {
+                    Path = newPath.ToString(),
+                    Address = b58keyDerrived.GetPublicKey().GetAddress(NBitcoin.ScriptPubKeyType.Legacy, NBitcoin.Network.Main).ToString(),
+                    Pubkey = b58keyDerrived.GetPublicKey().ToHex(),
+                    Privkey = b58keyDerrived.PrivateKey.GetWif(NBitcoin.Network.Main).ToString()
+                };
+
+            DerrivedItems.Add(derrived);
+        }
+    }
+    
+    public class Derrived
+    {
+        public string Address { get; set; }
+        public string Path { get; set; }
+        public string Pubkey { get; set; }
+        public string Privkey { get; set; }
+    }
+}

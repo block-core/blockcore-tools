@@ -1,0 +1,68 @@
+@page "/crypto-demo"
+@inject IJSRuntime JS
+
+<PageTitle>Cryptography demo</PageTitle>
+
+<h1>Cryptography demo</h1>
+
+<p>
+    This page demonstrates using JS interop to make a call from a .NET Blazor client app
+    into the JavaScript runtime for the purposes of computing an HMACSHA256 hash.
+</p>
+
+<p>
+    Key (base64-encoded):
+    <input type="text" name="key" @bind-value="keyAsString" />
+</p>
+
+<p>
+    Text to be digested:
+    <input type="text" name="inputText" @bind-value="inputTextAsString" />
+</p>
+
+<p>
+    <button class="btn btn-primary" @onclick="GenRandomKey">Generate random key</button>
+    <button class="btn btn-primary" @onclick="ComputeDigest">Compute HMACSHA256 digest</button>
+</p>
+
+<p>Computed Pbkdf2 (as hex): @statusMessage1</p>
+<p>Computed Hmac (as hex): @statusMessage2</p>
+
+@code {
+    private string keyAsString = "";
+    private string inputTextAsString = "";
+    private string statusMessage1 = "";
+    private string statusMessage2 = "";
+
+    private void GenRandomKey()
+    {
+        // Generate a random 256-bit key.
+        byte[] randomBytes = new byte[32];
+        System.Security.Cryptography.RandomNumberGenerator.Fill(randomBytes);
+        keyAsString = Convert.ToBase64String(randomBytes);
+    }
+
+    private async Task ComputeDigest()
+    {
+        try
+        {
+            // Base64-decode the key.
+            byte[] keyAsBytes = Convert.FromBase64String(keyAsString);
+
+            // Get the binary representation of the text to hash (we'll use UTF-8).
+            inputTextAsString ??= string.Empty; // ensure non-null
+            byte[] inputTextAsUtf8Bytes = System.Text.Encoding.UTF8.GetBytes(inputTextAsString);
+
+            // Now use JS interop to call SubtleCrypto's Promise-based API.
+            byte[] digestAsBytes1 = await JS.InvokeAsync<byte[]>("computePbkdf2", keyAsBytes, inputTextAsUtf8Bytes);
+            statusMessage1 = BitConverter.ToString(digestAsBytes1);
+
+            byte[] digestAsBytes2 = await JS.InvokeAsync<byte[]>("computeHmac", keyAsBytes, inputTextAsUtf8Bytes);
+            statusMessage2 = BitConverter.ToString(digestAsBytes2);
+        }
+        catch (Exception ex)
+        {
+            statusMessage1 = $"ERROR: {ex}";
+        }
+    }
+}

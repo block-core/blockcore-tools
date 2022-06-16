@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using NBitcoin;
+using Blockcore.Networks;
 
 namespace Blockcore.Samples
 {

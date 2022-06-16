@@ -6,7 +6,6 @@
   </PropertyGroup>
 
    <ItemGroup>
-      <PackageReference Include="Blockcore.NBitcoin" Version="1.0.*" />
       <PackageReference Include="Blockcore.Networks.City" Version="1.0.*" />
       <PackageReference Include="MessagePack" Version="2.1.152" />
       <PackageReference Include="RestSharp" Version="106.11.4" />

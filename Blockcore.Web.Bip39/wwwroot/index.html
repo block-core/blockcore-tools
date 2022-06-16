@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Blockcore.Web.Bip39</title>
+    <base href="/" />
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="Blockcore.Web.Bip39.styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="app">Loading...</div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+   <script>
+      window.computePbkdf2 = async function (key, salt) {
+
+         var cryptoKey = await crypto.subtle.importKey(
+            'raw',
+            buffer,
+            {
+               name: 'PBKDF2',
+            },
+            false,
+            ['deriveKey']
+         );
+
+         let digestAsBytes = await window.crypto.subtle.deriveKey(
+            {
+               "name": "PBKDF2",
+               salt: salt.buffer,
+               "iterations": 2048,
+               hash: { name: 'SHA-512' },
+            },
+            cryptoKey,
+            {
+               name: 'HMAC',
+               hash: 'SHA-512',
+               length: 512
+            },
+            true,
+            ["sign"]
+         );
+
+         let exportedKey = await window.crypto.subtle.exportKey('raw', digestAsBytes)
+
+         return new Uint8Array(exportedKey);
+      }
+
+      window.computeHmac = async function (key, data) {
+
+       var cryptoKey = await crypto.subtle.importKey(
+          "raw" /* format */,
+          key.buffer /* keyData */,
+          { name: "HMAC", hash: "SHA-512" } /* algorithm (HmacImportParams) */,
+          false /* extractable */,
+          ["sign", "verify"] /* keyUsages */);
+
+       var digest = await crypto.subtle.sign(
+          "HMAC" /* algorithm */,
+          cryptoKey /* key */,
+          data.buffer /* data */);
+
+
+        return new Uint8Array(digest);
+    };
+</script>
+</body>
+
+</html>

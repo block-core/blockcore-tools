@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Blockcore.Networks;
 using Blockcore.Samples.Models;
 using MessagePack;
 using NBitcoin;
@@ -23,7 +24,7 @@ namespace Blockcore.Samples
          this.args = args;
 
          profileNetwork = ProfileNetwork.Instance;
-         paymentNetwork = City.Networks.Networks.City.Mainnet.Invoke();
+         paymentNetwork = Blockcore.Networks.City.Networks.Networks.City.Mainnet.Invoke();
       }
 
       public string GenerateRandomIdentity()

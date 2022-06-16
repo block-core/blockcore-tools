@@ -17,9 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockcore.Web.Bip39", "Blockcore.Web.Bip39\Blockcore.Web.Bip39.csproj", "{52255F75-2867-46E3-B745-672E4F6BDDAF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NBitcoin", "..\NBitcoin\NBitcoin\NBitcoin.csproj", "{7EFF3D65-D7DA-4C38-809C-75B67B611E4A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blockcore.Web.Bip39", "src\Blockcore.Web.Bip39\Blockcore.Web.Bip39.csproj", "{404CAECF-B16D-4FB3-9D34-BE6ADE3E3131}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,14 +35,14 @@ Global
 		{9C8834B8-E761-4E8A-A36A-5466399453FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C8834B8-E761-4E8A-A36A-5466399453FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C8834B8-E761-4E8A-A36A-5466399453FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{52255F75-2867-46E3-B745-672E4F6BDDAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52255F75-2867-46E3-B745-672E4F6BDDAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52255F75-2867-46E3-B745-672E4F6BDDAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52255F75-2867-46E3-B745-672E4F6BDDAF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7EFF3D65-D7DA-4C38-809C-75B67B611E4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7EFF3D65-D7DA-4C38-809C-75B67B611E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7EFF3D65-D7DA-4C38-809C-75B67B611E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7EFF3D65-D7DA-4C38-809C-75B67B611E4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{404CAECF-B16D-4FB3-9D34-BE6ADE3E3131}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{404CAECF-B16D-4FB3-9D34-BE6ADE3E3131}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{404CAECF-B16D-4FB3-9D34-BE6ADE3E3131}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{404CAECF-B16D-4FB3-9D34-BE6ADE3E3131}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

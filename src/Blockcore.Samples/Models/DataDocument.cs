@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Blockcore.Features.Storage.Models;
 
-namespace Blockcore.Samples.Models
+namespace Blockcore.Features.Storage.Models
 {
-   public class IdentityDocument : Document<Identity>
+   public class DataDocument : Document<dynamic>
    {
       /// <summary>
       /// Version of identity that this document holds. This is not revisions of the document instance, but version of type definition used for compatibility.

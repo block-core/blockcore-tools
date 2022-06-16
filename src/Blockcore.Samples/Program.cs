@@ -18,7 +18,10 @@ namespace Blockcore.Samples
                var identitySamples = new IdentitySamples(args);
                identitySamples.Run();
                break;
-
+            case "data":
+               var dataSamples = new DataSamples(args);
+               dataSamples.Run();
+               break;
          }
 
          Console.WriteLine("Press ENTER to exit.");

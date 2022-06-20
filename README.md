@@ -23,4 +23,5 @@ Download latest version from [releases](https://github.com/block-core/blockcore-
 
 A proof of concept for bip39 derivation using C# in the browser can be found here  
 
-https://github.com/block-core/blockcore-tools/tree/master/src/Blockcore.Web.Bip39
+[bip39-tool-using-wasm-blazor](https://github.com/block-core/blockcore-tools/tree/master/src/Blockcore.Web.Bip39#bip39-tool-using-c-wasm-blazor)
+

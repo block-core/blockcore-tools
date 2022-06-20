@@ -18,3 +18,9 @@
 Genesis Block Generator you can use to generate the genesis block for your custom blockchain.
 
 Download latest version from [releases](https://github.com/block-core/blockcore-tools/releases).
+
+# Bip39 wasm
+
+A proof of concept for bip39 derivation using C# in the browser can be found here  
+
+https://github.com/block-core/blockcore-tools/tree/master/src/Blockcore.Web.Bip39

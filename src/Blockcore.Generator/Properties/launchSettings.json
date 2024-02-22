@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Blockcore.Generator": {
+      "commandName": "Project",
+      "commandLineArgs": "genesis text"
+    }
+  }
+}

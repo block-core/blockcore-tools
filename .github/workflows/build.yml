@@ -73,13 +73,8 @@ jobs:
     #   run: dotnet build -c ${{env.BUILD_CONFIGURATION}} -r ${{env.RELEASE_CONFIGURATION}} -v m ${{env.SOLUTION_PATH}}
 
     - name: Publish
-      run: |
-        if [ -z "${{ env.RELEASE_CONFIGURATION }}" ]; then
-          dotnet publish -c ${{ env.BUILD_CONFIGURATION }} -v m -o ./bin/publish ${{ env.PROJECT_PATH }}
-        else
-          dotnet publish -c ${{ env.BUILD_CONFIGURATION }} -r ${{ env.RELEASE_CONFIGURATION }} -v m -o ./bin/publish ${{ env.PROJECT_PATH }}
-        fi
-
+      run: dotnet publish -c ${{env.BUILD_CONFIGURATION}} -r ${{env.RELEASE_CONFIGURATION}} -v m -o ./bin/publish ${{env.PROJECT_PATH}}
+      
     - name: Package Name
       run: |
         echo "RELEASE_NAME=${{ env.PROJECT_NAME }}-${{ env.VERSION }}-${{ env.RELEASE_CONFIGURATION }}${{ matrix.extension }}" >> $GITHUB_ENV

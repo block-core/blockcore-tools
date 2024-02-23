@@ -1,6 +1,6 @@
 name: Build
 
-on: 
+on:
   push:
     branches:
       - master
@@ -26,7 +26,7 @@ jobs:
           - os: macos-latest
             runtime: "osx-x64"
             extension: ".zip"
-        node_version: [12.x]
+        node_version: [18]
       fail-fast: false
 
     runs-on: ${{ matrix.os }}
@@ -55,7 +55,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.101
+        dotnet-version: 6.0.x
 
     # - name: Restore
     #   run: dotnet restore ${{env.SOLUTION_PATH}}

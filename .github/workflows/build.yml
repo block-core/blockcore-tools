@@ -64,7 +64,12 @@ jobs:
     #   run: dotnet build -c ${{env.BUILD_CONFIGURATION}} -r ${{env.RELEASE_CONFIGURATION}} -v m ${{env.SOLUTION_PATH}}
 
     - name: Publish
-      run: dotnet publish -c ${{env.BUILD_CONFIGURATION}} -r ${{env.RELEASE_CONFIGURATION}} -v m -o ./bin/publish ${{env.PROJECT_PATH}}
+      run: |
+        if [ -z "${{ env.RELEASE_CONFIGURATION }}" ]; then
+          dotnet publish -c ${{ env.BUILD_CONFIGURATION }} -v m -o ./bin/publish ${{ env.PROJECT_PATH }}
+        else
+          dotnet publish -c ${{ env.BUILD_CONFIGURATION }} -r ${{ env.RELEASE_CONFIGURATION }} -v m -o ./bin/publish ${{ env.PROJECT_PATH }}
+        fi
 
     - name: Package Name
       run: |

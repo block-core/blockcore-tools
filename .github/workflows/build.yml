@@ -96,4 +96,3 @@ jobs:
         body: ''
         name: "Blockcore Tools (Release ${{env.VERSION}})"
         tag: ${{env.VERSION}}
-        target_commitish: master 

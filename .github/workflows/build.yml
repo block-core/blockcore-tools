@@ -52,11 +52,17 @@ jobs:
         echo "VERSION=$(npm run version --silent)" >> $GITHUB_ENV
         echo "RELEASE_CONFIGURATION=${{ matrix.runtime }}" >> $GITHUB_ENV
 
+    - name: Print GITHUB_ENV contents
+      run: cat $GITHUB_ENV
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
 
+    - name: Print GITHUB_ENV contents
+      run: cat $GITHUB_ENV
+    
     # - name: Restore
     #   run: dotnet restore ${{env.SOLUTION_PATH}}
 
